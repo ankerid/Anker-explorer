@@ -7,6 +7,7 @@
   // menu items
   "menu_explorer": "Explorer",
   "menu_api": "API",
+  "menu_api": "Stats",
   "menu_markets": "Markets",
   "menu_richlist": "Top 100",
   "menu_reward": "Reward",
@@ -42,6 +43,8 @@
   "difficulty": "Difficulty",
   "network": "Network",
   "height": "Height",
+  "summtx": "Total TXs",
+  "summaddress": "Addresses",
   "timestamp": "Timestamp",
   "size": "Size",
   "transactions": "Transactions",

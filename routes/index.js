@@ -127,14 +127,62 @@ router.get('/', function(req, res) {
   route_get_index(res, null);
 });
 
-router.get('/info', function(req, res) {
-        res.render('error', {
-            message: "Not found",
-            error: 404
-        });
+router.get('/docsapi', function(req, res) {
+    res.render('api', { active: 'info', address: settings.address, hashes: settings.api });
 
-    //route_get_index(res, null);
-    //res.render('info', { active: 'info', address: settings.address, hashes: settings.api });
+});
+
+router.get('/info', function(req, res) {
+  lib.get_difficulty(function(difficulty) {
+    difficultyHybrid = ''
+    if (difficulty['proof-of-work']) {
+            if (settings.index.difficulty == 'Hybrid') {
+              difficultyHybrid = 'POS: ' + difficulty['proof-of-stake'];
+              difficulty = 'POW: ' + difficulty['proof-of-work'];
+            } else if (settings.index.difficulty == 'POW') {
+              difficulty = difficulty['proof-of-work'];
+            } else {
+        difficulty = difficulty['proof-of-stake'];
+      }
+    }
+    lib.get_hashrate(function(hashrate) {
+      lib.get_connectioncount(function(connections){
+        lib.get_blockcount(function(blockcount) {
+          db.get_stats(settings.coin, function (stats) {
+            db.get_txcount(function(txcounts){
+              db.get_first(function(firstblock){
+                db.get_adrcount(function(adrcounts){
+                    seconds = Number(Math.round(Date.now()/1000) - firstblock);
+                    var d = Math.floor(seconds / (3600*24));
+                    var h = Math.floor(seconds % (3600*24) / 3600);
+                    var m = Math.floor(seconds % 3600 / 60);
+                    var s = Math.floor(seconds % 60);
+
+                    var dDisplay = d > 0 ? d + (d == 1 ? " day, " : " days, ") : "";
+                    var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+                    var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
+                    var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+                    res.render('info', { active: 'info', 
+                      difficulty: difficulty,
+                      supply: stats.supply,
+                      hashrate: hashrate,
+                      connections: connections,
+                      blockcount: blockcount,
+                      adrcount: adrcounts,
+                      txcount: txcounts,
+                      start: new Date(firstblock*1000).toDateString(),
+                      firstblock: Math.round(Date.now()/1000) - firstblock,
+                      firstblockh: dDisplay + hDisplay + mDisplay + sDisplay,
+                      blockaverage: Math.round(100*(Math.round(Date.now()/1000) - firstblock)/blockcount)/100
+                    });
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  });
 });
 
 router.get('/markets', function(req, res) {
@@ -326,10 +374,13 @@ router.get('/ext/summary', function(req, res) {
         difficulty = difficulty['proof-of-stake'];
       }
     }
+
     lib.get_hashrate(function(hashrate) {
       lib.get_connectioncount(function(connections){
         lib.get_blockcount(function(blockcount) {
           db.get_stats(settings.coin, function (stats) {
+            db.get_txcount(function(txcounts){
+            db.get_adrcount(function(adrcounts){
             if (hashrate == 'There was an error. Check your console.') {
               hashrate = 0;
             }
@@ -340,8 +391,12 @@ router.get('/ext/summary', function(req, res) {
               hashrate: hashrate,
               lastPrice: stats.last_price,
               connections: connections,
-              blockcount: blockcount
+              blockcount: blockcount,
+              adrcount: adrcounts,
+              txcount: txcounts
             }]});
+          });
+          });
           });
         });
       });

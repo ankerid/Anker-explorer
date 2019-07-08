@@ -38,6 +38,8 @@ html
             $("#difficulty").text(json.data[0].difficulty);
             $("#difficultyHybrid").text(json.data[0].difficultyHybrid);
             $("#hashrate").text(json.data[0].hashrate);
+            $("#summtx").text(json.data[0].txcount);
+            $("#summaddress").text(json.data[0].adrcount);
             $("#lastPrice").text(json.data[0].lastPrice.toFixed(8));
             $("#lblConnections").text(json.data[0].connections + ' connections');
             $("#lblBlockcount").text(json.data[0].blockcount + ' blocks');
@@ -133,14 +135,19 @@ html
                 a.navbar-link.loading(href='/markets/#{settings.markets.default}') 
                   span.fa.fa-line-chart
                   span.menu-text #{settings.locale.menu_markets}
-            if settings.display.api == true
+            if settings.display.info == true
               li#info
                 a.navbar-link(href='/info')
                   span.glyphicon.glyphicon-info-sign
-                  span.menu-text #{settings.locale.menu_api}
+                  span.menu-text #{settings.locale.menu_info}
     .col-md-12
       .row.text-center
         .col-md-2.col-md-offset-1
+          .panel.panel-default.hidden-sm.hidden-xs
+            .panel-heading
+              strong #{settings.locale.summtx}
+            .panel-body
+              label#summtx -  
         .col-md-2
           .panel.panel-default.hidden-sm.hidden-xs
             .panel-heading
@@ -166,6 +173,11 @@ html
               else
                label#supply -  
         .col-md-2                 
+          .panel.panel-default.hidden-sm.hidden-xs
+            .panel-heading
+              strong #{settings.locale.summaddress}
+            .panel-body
+              label#summaddress -  
       .row.text-center(style='margin-top:10px;margin-bottom:20px;')
         form.form-inline(method='post', action='/search')      
           #index-search.form-group

@@ -2,12 +2,36 @@ body {
   padding: 80px 40px;
   font: 14px "Open Sans", Helvetica, Arial, sans-serif;
  /* background-image: url('/images/background2.png');*/
+  background-color: #373734;
 }
 
 #index-search {
 	width: 80%;
 }
+.panel-default > .panel-heading {
 
+    color: #248fff;
+}
+.navbar-default .navbar-brand {
+
+    color: #248fff;
+
+}
+.btn-success {
+ color:#ffffff;
+ background-color:#248fff;
+ border-color:#248fff
+}
+.btn-success:hover,.btn-success:focus,.btn-success.focus,.btn-success:active,.btn-success.active,.open>.dropdown-toggle.btn-success {
+ color:#ffffff;
+ background-color:#248cbc;
+ border-color:#248cbc
+}
+
+.btn-success.disabled,.btn-success[disabled],fieldset[disabled] .btn-success,.btn-success.disabled:hover,.btn-success[disabled]:hover,fieldset[disabled] .btn-success:hover,.btn-success.disabled:focus,.btn-success[disabled]:focus,fieldset[disabled] .btn-success:focus,.btn-success.disabled.focus,.btn-success[disabled].focus,fieldset[disabled] .btn-success.focus,.btn-success.disabled:active,.btn-success[disabled]:active,fieldset[disabled] .btn-success:active,.btn-success.disabled.active,.btn-success[disabled].active,fieldset[disabled] .btn-success.active {
+ background-color:#248fff;
+ border-color:#248fff
+}
 .nav-search input {
 	width: 400px !important;
 	margin-right: 5px;	
