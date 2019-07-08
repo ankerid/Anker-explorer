@@ -1,5 +1,6 @@
-Iquidus Explorer - 1.6.1
+Anker explorer
 ================
+forked from dystem-explorer
 
 An open source block explorer written in node.js.
 
